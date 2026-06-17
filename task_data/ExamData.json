@@ -1,0 +1,987 @@
+[
+  {
+    "id": 1,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function sayHi() {\n  console.log(name);\n  console.log(age);\n  var name = \"Lydia\";\n  let age = 21;\n}\nsayHi();",
+    "demo": {
+      "kind": "javascript",
+      "code": "function sayHi() {\n  console.log(name);\n  console.log(age);\n  var name = \"Lydia\";\n  let age = 21;\n}\nsayHi();"
+    },
+    "options": [
+      "A: Lydia and undefined",
+      "B: Lydia and ReferenceError",
+      "C: ReferenceError and 21",
+      "D: undefined and ReferenceError"
+    ],
+    "correctIndex": 3,
+    "explanation": "Variables declared with var are hoisted and initialized with undefined. Variables declared with let are also hoisted, but they are not initialized and stay in the temporal dead zone. Accessing a let variable before its declaration throws a ReferenceError.",
+    "explanation_ru": "Переменные, объявленные через var, поднимаются (hoisting) и имеют начальное значение undefined. Переменные let также поднимаются, но не инициализируются (находятся во «временной мертвой зоне»). Обращение к let до ее объявления вызывает ReferenceError."
+  },
+  {
+    "id": 2,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}\nfor (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}",
+    "demo": {
+      "kind": "javascript",
+      "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}\nfor (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 1);\n}"
+    },
+    "options": [
+      "A: 0 1 2 and 0 1 2",
+      "B: 0 1 2 and 3 3 3",
+      "C: 3 3 3 and 0 1 2"
+    ],
+    "correctIndex": 2,
+    "explanation": "The first loop uses var, which has function/global scope. By the time the setTimeout callbacks run, the loop has finished and i is 3. The second loop uses let, which creates a new binding for each iteration.",
+    "explanation_ru": "В первом цикле используется var (глобальная область видимости/функции). К моменту вызова setTimeout цикл уже завершен и i=3. Во втором цикле let создает новую область видимости для каждой итерации."
+  },
+  {
+    "id": 3,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "+true;\n!\"Lydia\";",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log(+true);\nconsole.log(!\"Lydia\");"
+    },
+    "options": [
+      "A: 1 and false",
+      "B: false and NaN",
+      "C: false and false"
+    ],
+    "correctIndex": 0,
+    "explanation": "The unary plus operator (+) converts true to 1. The string \"Lydia\" is truthy, so the logical NOT operator (!) converts it to false.",
+    "explanation_ru": "Унарный плюс (+) конвертирует true в 1. Строка \"Lydia\" является truthy-значением, поэтому оператор НЕ (!) превращает её в false."
+  },
+  {
+    "id": 4,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const shape = {\n  radius: 10,\n  diameter() {\n    return this.radius * 2;\n  },\n  perimeter: () => 2 * Math.PI * this.radius\n};\nconsole.log(shape.diameter());\nconsole.log(shape.perimeter());",
+    "demo": {
+      "kind": "javascript",
+      "code": "const shape = {\n  radius: 10,\n  diameter() {\n    return this.radius * 2;\n  },\n  perimeter: () => 2 * Math.PI * this.radius\n};\nconsole.log(shape.diameter());\nconsole.log(shape.perimeter());"
+    },
+    "options": [
+      "A: 20 and 62.83185307179586",
+      "B: 20 and NaN",
+      "C: 20 and 63",
+      "D: NaN and 63"
+    ],
+    "correctIndex": 1,
+    "explanation": "The regular diameter method gets this from the shape object. The arrow function perimeter gets this from the outer scope, where radius is undefined in this example. Multiplying by undefined produces NaN.",
+    "explanation_ru": "Обычная функция diameter ссылается на объект shape через this. Стрелочная функция perimeter берет this из внешнего контекста (глобального), где radius равен undefined. Умножение на undefined дает NaN."
+  },
+  {
+    "id": 5,
+    "type": "javascript",
+    "question": "Which one is true?",
+    "code": "const bird = {\n  size: \"small\"\n};\nconst mouse = {\n  name: \"Mickey\",\n  small: true\n};",
+    "demo": {
+      "kind": "javascript",
+      "code": "const bird = {\n  size: \"small\"\n};\nconst mouse = {\n  name: \"Mickey\",\n  small: true\n};\ntry {\n  console.log(mouse.bird.size);\n} catch (error) {\n  console.log(error.name);\n}\nconsole.log(mouse[bird.size]);\nconsole.log(mouse[bird[\"size\"]]);"
+    },
+    "options": [
+      "A: mouse.bird.size is not valid",
+      "B: mouse[bird.size] is not valid",
+      "C: mouse[bird[\"size\"]] is not valid",
+      "D: All of them are valid"
+    ],
+    "correctIndex": 0,
+    "explanation": "The mouse object has no bird property, so mouse.bird is undefined. Accessing undefined.size throws a TypeError, so option A is the true statement. Options B and C resolve to mouse[\"small\"], which is valid and returns true.",
+    "explanation_ru": "В объекте mouse нет свойства bird, поэтому mouse.bird — это undefined. Обращение к undefined.size вызовет ошибку TypeError, поэтому A — верное утверждение. Варианты B и C резолвятся в mouse[\"small\"], что валидно (вернет true)."
+  },
+  {
+    "id": 6,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "let c = { greeting: \"Hey!\" };\nlet d;\nd = c;\nc.greeting = \"Hello\";\nconsole.log(d.greeting);",
+    "demo": {
+      "kind": "javascript",
+      "code": "let c = { greeting: \"Hey!\" };\nlet d;\nd = c;\nc.greeting = \"Hello\";\nconsole.log(d.greeting);"
+    },
+    "options": [
+      "A: Hello",
+      "B: Hey!",
+      "C: undefined",
+      "D: ReferenceError",
+      "E: TypeError"
+    ],
+    "correctIndex": 0,
+    "explanation": "Object references are copied by value in JavaScript. The variables c and d point to the same object in memory, so changing the greeting through c is visible through d as well.",
+    "explanation_ru": "Объекты в JavaScript передаются по ссылке. Переменные c и d указывают на один и тот же объект в памяти. Изменение свойства через c отразится и в d."
+  },
+  {
+    "id": 7,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "let a = 3;\nlet b = new Number(3);\nlet c = 3;\nconsole.log(a == b);\nconsole.log(a === b);\nconsole.log(b === c);",
+    "demo": {
+      "kind": "javascript",
+      "code": "let a = 3;\nlet b = new Number(3);\nlet c = 3;\nconsole.log(a == b);\nconsole.log(a === b);\nconsole.log(b === c);"
+    },
+    "options": [
+      "A: true false true",
+      "B: false false true",
+      "C: true false false",
+      "D: false true true"
+    ],
+    "correctIndex": 2,
+    "explanation": "a == b returns true because loose equality performs type coercion. a === b returns false because a is a primitive number and b is a Number object. b === c is also false because an object and a primitive are compared without coercion.",
+    "explanation_ru": "a == b вернет true (происходит приведение типов). a === b вернет false (a — примитив, b — объект Number). b === c также false, так как сравниваются объект и примитив без приведения типов."
+  },
+  {
+    "id": 8,
+    "type": "javascript",
+    "question": "What happens when we do this?",
+    "code": "function bark() {\n  console.log(\"Woof!\");\n}\nbark.animal = \"dog\";",
+    "demo": {
+      "kind": "javascript",
+      "code": "function bark() {\n  console.log(\"Woof!\");\n}\nbark.animal = \"dog\";\nconsole.log(bark.animal);"
+    },
+    "options": [
+      "A: Nothing, this is totally fine!",
+      "B: SyntaxError. You cannot add properties to a function this way.",
+      "C: \"Woof\" gets logged.",
+      "D: ReferenceError"
+    ],
+    "correctIndex": 0,
+    "explanation": "Functions are objects in JavaScript. You can add properties to functions just like you can add properties to other objects.",
+    "explanation_ru": "В JavaScript функции — это объекты. Вы можете абсолютно безопасно добавлять свойства к функциям, как и к любым другим объектам."
+  },
+  {
+    "id": 9,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function Person(firstName, lastName) {\n  this.firstName = firstName;\n  this.lastName = lastName;\n}\nconst lydia = new Person(\"Lydia\", \"Hallie\");\nconst sarah = Person(\"Sarah\", \"Smith\");\nconsole.log(lydia);\nconsole.log(sarah);",
+    "demo": {
+      "kind": "javascript",
+      "code": "function Person(firstName, lastName) {\n  this.firstName = firstName;\n  this.lastName = lastName;\n}\nconst lydia = new Person(\"Lydia\", \"Hallie\");\nconst sarah = Person(\"Sarah\", \"Smith\");\nconsole.log(lydia);\nconsole.log(sarah);"
+    },
+    "options": [
+      "A: Person {firstName: \"Lydia\", lastName: \"Hallie\"} and undefined",
+      "B: Person {firstName: \"Lydia\", lastName: \"Hallie\"} and Person {firstName: \"Sarah\", lastName: \"Smith\"}",
+      "C: Person {firstName: \"Lydia\", lastName: \"Hallie\"} and {}",
+      "D: Person {firstName: \"Lydia\", lastName: \"Hallie\"} and ReferenceError"
+    ],
+    "correctIndex": 0,
+    "explanation": "The new keyword creates a new object and binds this to it. Without new, the function is called as a regular function, and because it does not return anything, sarah becomes undefined in a non-strict script context.",
+    "explanation_ru": "Слово new создает новый объект и привязывает к нему this. Без new функция вызывается в обычном контексте (this указывает на глобальный объект), и так как она ничего не возвращает, sarah становится undefined."
+  },
+  {
+    "id": 10,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function sum(a, b) {\n  return a + b;\n}\nsum(1, \"2\");",
+    "demo": {
+      "kind": "javascript",
+      "code": "function sum(a, b) {\n  return a + b;\n}\nconsole.log(sum(1, \"2\"));"
+    },
+    "options": [
+      "A: NaN",
+      "B: TypeError",
+      "C: \"12\"",
+      "D: 3"
+    ],
+    "correctIndex": 2,
+    "explanation": "When a number is added to a string, JavaScript converts the number to a string. String concatenation happens: \"1\" + \"2\" becomes \"12\".",
+    "explanation_ru": "При сложении числа и строки JavaScript приводит число к строке. Выполняется конкатенация: \"1\" + \"2\" = \"12\"."
+  },
+  {
+    "id": 11,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "let number = 0;\nconsole.log(number++);\nconsole.log(++number);\nconsole.log(number);",
+    "demo": {
+      "kind": "javascript",
+      "code": "let number = 0;\nconsole.log(number++);\nconsole.log(++number);\nconsole.log(number);"
+    },
+    "options": [
+      "A: 1 1 2",
+      "B: 1 2 2",
+      "C: 0 2 2",
+      "D: 0 1 2"
+    ],
+    "correctIndex": 2,
+    "explanation": "number++ is postfix: it returns 0 first, then increments the value to 1. ++number is prefix: it increments 1 to 2 first, then returns 2. The final console.log prints the current value, which is 2.",
+    "explanation_ru": "number++ (постфикс) сначала возвращает 0, затем увеличивает до 1. ++number (префикс) сначала увеличивает 1 до 2, и возвращает 2. Последний консоль выводит текущее значение — 2."
+  },
+  {
+    "id": 12,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function checkAge(data) {\n  if (data === { age: 18 }) {\n    console.log(\"You are an adult!\");\n  } else if (data == { age: 18 }) {\n    console.log(\"You are still an adult.\");\n  } else {\n    console.log(`Hmm.. You don't have an age I guess`);\n  }\n}\ncheckAge({ age: 18 });",
+    "demo": {
+      "kind": "javascript",
+      "code": "function checkAge(data) {\n  if (data === { age: 18 }) {\n    console.log(\"You are an adult!\");\n  } else if (data == { age: 18 }) {\n    console.log(\"You are still an adult.\");\n  } else {\n    console.log(`Hmm.. You don't have an age I guess`);\n  }\n}\ncheckAge({ age: 18 });"
+    },
+    "options": [
+      "A: You are an adult!",
+      "B: You are still an adult.",
+      "C: Hmm.. You don't have an age I guess"
+    ],
+    "correctIndex": 2,
+    "explanation": "Objects are compared by reference, not by their property values. Each { age: 18 } literal creates a new object in memory. The references are different, so the else block runs.",
+    "explanation_ru": "Объекты сравниваются по ссылкам, а не по значениям свойств. { age: 18 } создает каждый раз новый объект в памяти. Ссылки не равны, поэтому отработает блок else."
+  },
+  {
+    "id": 13,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function getAge() {\n  \"use strict\";\n  age = 21;\n  console.log(age);\n}\ngetAge();",
+    "demo": {
+      "kind": "javascript",
+      "code": "function getAge() {\n  \"use strict\";\n  age = 21;\n  console.log(age);\n}\ngetAge();"
+    },
+    "options": [
+      "A: 21",
+      "B: undefined",
+      "C: ReferenceError",
+      "D: TypeError"
+    ],
+    "correctIndex": 2,
+    "explanation": "In strict mode (\"use strict\"), assigning to an undeclared variable is not allowed. Assigning age = 21 without let, const, or var throws a ReferenceError.",
+    "explanation_ru": "В строгом режиме (\"use strict\") нельзя использовать необъявленные переменные. Присвоение age = 21 без let, const или var вызовет ReferenceError."
+  },
+  {
+    "id": 14,
+    "type": "javascript",
+    "question": "What's value of sum?",
+    "code": "const sum = eval(\"10*10+5\");",
+    "demo": {
+      "kind": "javascript",
+      "code": "const sum = eval(\"10*10+5\");\nconsole.log(sum);"
+    },
+    "options": [
+      "A: 105",
+      "B: \"105\"",
+      "C: TypeError",
+      "D: \"10*10+5\""
+    ],
+    "correctIndex": 0,
+    "explanation": "eval evaluates the string as JavaScript code. 10 * 10 + 5 equals 105, and the result is a number.",
+    "explanation_ru": "Функция eval вычисляет строку как JavaScript-код. 10 * 10 + 5 равно 105 (результат — число)."
+  },
+  {
+    "id": 15,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "var num = 8;\nvar num = 10;\nconsole.log(num);",
+    "demo": {
+      "kind": "javascript",
+      "code": "var num = 8;\nvar num = 10;\nconsole.log(num);"
+    },
+    "options": [
+      "A: 8",
+      "B: 10",
+      "C: SyntaxError",
+      "D: ReferenceError"
+    ],
+    "correctIndex": 1,
+    "explanation": "Variables declared with var can be redeclared in the same scope. The second declaration assigns 10, so num becomes 10.",
+    "explanation_ru": "При использовании var переменные можно объявлять повторно в одной и той же области видимости. Второе объявление перезапишет первое, и num станет 10."
+  },
+  {
+    "id": 16,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const obj = { a: \"one\", b: \"two\", a: \"three\" };\nconsole.log(obj);",
+    "demo": {
+      "kind": "javascript",
+      "code": "const obj = { a: \"one\", b: \"two\", a: \"three\" };\nconsole.log(obj);"
+    },
+    "options": [
+      "A: { a: \"one\", b: \"two\" }",
+      "B: { b: \"two\", a: \"three\" }",
+      "C: { a: \"three\", b: \"two\" }",
+      "D: SyntaxError"
+    ],
+    "correctIndex": 2,
+    "explanation": "When an object literal contains duplicate keys, the last value overwrites the earlier value. The key keeps its original position, but its value becomes \"three\".",
+    "explanation_ru": "Если в объекте дублируются ключи, последнее определение перезаписывает предыдущие. Позиция ключа остается первой, но значение становится \"three\"."
+  },
+  {
+    "id": 17,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const foo = () => console.log(\"First\");\nconst bar = () => setTimeout(() => console.log(\"Second\"));\nconst baz = () => console.log(\"Third\");\nbar();\nfoo();\nbaz();",
+    "demo": {
+      "kind": "javascript",
+      "code": "const foo = () => console.log(\"First\");\nconst bar = () => setTimeout(() => console.log(\"Second\"));\nconst baz = () => console.log(\"Third\");\nbar();\nfoo();\nbaz();"
+    },
+    "options": [
+      "A: First Second Third",
+      "B: First Third Second",
+      "C: Second First Third",
+      "D: Second Third First"
+    ],
+    "correctIndex": 1,
+    "explanation": "bar schedules a setTimeout callback. The synchronous calls to foo and baz run immediately, and the timeout callback runs afterward. The output is First, then Third, then Second.",
+    "explanation_ru": "bar вызывает setTimeout, колбэк которого отправляется в Web API, а затем в очередь макрозадач. Синхронный код (foo и baz) выполняется немедленно. Результат: First, Third, и только потом Second."
+  },
+  {
+    "id": 18,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "!!null;\n!!\"\";\n!!1;",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log(!!null);\nconsole.log(!!\"\");\nconsole.log(!!1);"
+    },
+    "options": [
+      "A: false true false",
+      "B: false false true",
+      "C: false true true",
+      "D: true true false"
+    ],
+    "correctIndex": 1,
+    "explanation": "The !! pattern converts a value to a boolean. null and the empty string \"\" are falsy, so they become false. The number 1 is truthy, so it becomes true.",
+    "explanation_ru": "!! приводит значение к булевому типу. null и пустая строка \"\" — это falsy-значения (false). Число 1 — это truthy-значение (true)."
+  },
+  {
+    "id": 19,
+    "type": "javascript",
+    "question": "What does this return?",
+    "code": "[...\"Lydia\"];",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log([...\"Lydia\"]);"
+    },
+    "options": [
+      "A: [\"L\", \"y\", \"d\", \"i\", \"a\"]",
+      "B: [\"Lydia\"]",
+      "C: [[], \"Lydia\"]",
+      "D: [[\"L\", \"y\", \"d\", \"i\", \"a\"]]"
+    ],
+    "correctIndex": 0,
+    "explanation": "The spread syntax (...) expands iterable values into separate elements. Strings are iterable, so each character becomes an element of the array.",
+    "explanation_ru": "Spread-оператор (...) разбивает итерируемые объекты на отдельные элементы. Строки итерируемы, поэтому каждый символ становится элементом массива."
+  },
+  {
+    "id": 20,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "let person = { name: \"Lydia\" };\nconst members = [person];\nperson = null;\nconsole.log(members);",
+    "demo": {
+      "kind": "javascript",
+      "code": "let person = { name: \"Lydia\" };\nconst members = [person];\nperson = null;\nconsole.log(members);"
+    },
+    "options": [
+      "A: null",
+      "B: [null]",
+      "C: [{}]",
+      "D: [{ name: \"Lydia\" }]"
+    ],
+    "correctIndex": 3,
+    "explanation": "The members array stores a reference to the object. Assigning person = null removes the reference from the person variable, but the array still holds its reference to the original object.",
+    "explanation_ru": "Массив members получает ссылку на объект. Приравнивание person = null удаляет ссылку из переменной person, но ссылка внутри массива members на сам объект в памяти остается нетронутой."
+  },
+  {
+    "id": 21,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const person = {\n  name: \"Lydia\",\n  age: 21\n};\nfor (const item in person) {\n  console.log(item);\n}",
+    "demo": {
+      "kind": "javascript",
+      "code": "const person = {\n  name: \"Lydia\",\n  age: 21\n};\nfor (const item in person) {\n  console.log(item);\n}"
+    },
+    "options": [
+      "A: { name: \"Lydia\" }, { age: 21 }",
+      "B: \"name\", \"age\"",
+      "C: \"Lydia\", 21",
+      "D: [\"name\", \"Lydia\"], [\"age\", 21]"
+    ],
+    "correctIndex": 1,
+    "explanation": "A for...in loop iterates over an object's enumerable property names. In this case it logs the keys \"name\" and \"age\".",
+    "explanation_ru": "Цикл for...in проходит по перечисляемым свойствам (ключам) объекта. Поэтому он выводит ключи: \"name\" и \"age\"."
+  },
+  {
+    "id": 22,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "console.log(3 + 4 + \"5\");",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log(3 + 4 + \"5\");"
+    },
+    "options": [
+      "A: \"345\"",
+      "B: \"75\"",
+      "C: 12",
+      "D: \"12\""
+    ],
+    "correctIndex": 1,
+    "explanation": "The additions are evaluated from left to right. First, 3 + 4 equals 7. Then 7 + \"5\" performs string concatenation because one operand is a string, producing \"75\".",
+    "explanation_ru": "Операции выполняются слева направо. Сначала 3 + 4 = 7. Затем 7 + \"5\". Так как один из операндов строка, число 7 приводится к строке, и происходит конкатенация: \"75\"."
+  },
+  {
+    "id": 23,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const a = {};\nconst b = { key: \"b\" };\nconst c = { key: \"c\" };\na[b] = 123;\na[c] = 456;\nconsole.log(a[b]);",
+    "demo": {
+      "kind": "javascript",
+      "code": "const a = {};\nconst b = { key: \"b\" };\nconst c = { key: \"c\" };\na[b] = 123;\na[c] = 456;\nconsole.log(a[b]);"
+    },
+    "options": [
+      "A: 123",
+      "B: 456",
+      "C: undefined",
+      "D: ReferenceError"
+    ],
+    "correctIndex": 1,
+    "explanation": "Object property keys are strings or symbols. When object b is used as a key in a[b], it is converted to the string \"[object Object]\". The same happens with c, so the value is overwritten with 456.",
+    "explanation_ru": "Ключи объекта могут быть только строками (или Symbol). При передаче объекта b в a[b], он приводится к строке \"[object Object]\". То же самое происходит с c. То есть a[\"[object Object]\"] перезаписывается на 456."
+  },
+  {
+    "id": 24,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const numbers = [1, 2, 3];\nnumbers[10] = 11;\nconsole.log(numbers.length);",
+    "demo": {
+      "kind": "javascript",
+      "code": "const numbers = [1, 2, 3];\nnumbers[10] = 11;\nconsole.log(numbers.length);"
+    },
+    "options": [
+      "A: 11",
+      "B: 4",
+      "C: Error"
+    ],
+    "correctIndex": 0,
+    "explanation": "In JavaScript, an array's length is one more than its highest numeric index. Assigning to index 10 automatically increases the length to 11, leaving empty slots in between.",
+    "explanation_ru": "В JS длина массива равна индексу последнего элемента плюс 1. Присвоение по 10-му индексу автоматически увеличит длину до 11 (остальные слоты заполнятся empty)."
+  },
+  {
+    "id": 25,
+    "type": "javascript",
+    "question": "What's the value of num?",
+    "code": "const num = parseInt(\"7*6\");",
+    "demo": {
+      "kind": "javascript",
+      "code": "const num = parseInt(\"7*6\");\nconsole.log(num);"
+    },
+    "options": [
+      "A: 42",
+      "B: \"42\"",
+      "C: 7",
+      "D: NaN"
+    ],
+    "correctIndex": 2,
+    "explanation": "parseInt reads the string from the start until it reaches a character that cannot be part of the number. It reads '7', stops at '*', and returns 7.",
+    "explanation_ru": "parseInt разбирает строку символ за символом до тех пор, пока не встретит символ, не являющийся числом. Он прочитает '7', остановится на '*', и вернет 7."
+  },
+  {
+    "id": 26,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function getInfo(member, year) {\n  member.name = \"Lydia\";\n  year = \"1998\";\n}\nconst person = { name: \"Sarah\" };\nconst birthYear = \"1997\";\ngetInfo(person, birthYear);\nconsole.log(person, birthYear);",
+    "demo": {
+      "kind": "javascript",
+      "code": "function getInfo(member, year) {\n  member.name = \"Lydia\";\n  year = \"1998\";\n}\nconst person = { name: \"Sarah\" };\nconst birthYear = \"1997\";\ngetInfo(person, birthYear);\nconsole.log(person, birthYear);"
+    },
+    "options": [
+      "A: { name: \"Lydia\" }, \"1997\"",
+      "B: { name: \"Sarah\" }, \"1998\"",
+      "C: { name: \"Lydia\" }, \"1998\"",
+      "D: { name: \"Sarah\" }, \"1997\""
+    ],
+    "correctIndex": 0,
+    "explanation": "The object reference is copied into member, so member.name = \"Lydia\" mutates the original object. The string birthYear is a primitive value, so changing the local year parameter does not affect birthYear.",
+    "explanation_ru": "Объекты передаются по ссылке, поэтому member.name = \"Lydia\" мутирует оригинальный объект. Примитивы (как строки) передаются по значению, поэтому изменение year не влияет на birthYear."
+  },
+  {
+    "id": 27,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function greeting() {\n  throw \"Hello world!\";\n}\nfunction sayHi() {\n  try {\n    const data = greeting();\n    console.log(\"It worked!\", data);\n  } catch (e) {\n    console.log(\"Oh no an error:\", e);\n  }\n}\nsayHi();",
+    "demo": {
+      "kind": "javascript",
+      "code": "function greeting() {\n  throw \"Hello world!\";\n}\nfunction sayHi() {\n  try {\n    const data = greeting();\n    console.log(\"It worked!\", data);\n  } catch (e) {\n    console.log(\"Oh no an error:\", e);\n  }\n}\nsayHi();"
+    },
+    "options": [
+      "A: It worked! Hello world!",
+      "B: Oh no an error: undefined",
+      "C: SyntaxError: can only throw Error objects",
+      "D: Oh no an error: Hello world!"
+    ],
+    "correctIndex": 3,
+    "explanation": "JavaScript can throw any value, not only Error objects. The string \"Hello world!\" is caught by the catch block and logged.",
+    "explanation_ru": "В JS можно throw (бросать) всё, что угодно, не только объекты Error. Строка \"Hello world!\" перехватывается блоком catch и выводится на экран."
+  },
+  {
+    "id": 28,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const numbers = [1, 2, 3, 4, 5];\nconst [y] = numbers;\nconsole.log(y);",
+    "demo": {
+      "kind": "javascript",
+      "code": "const numbers = [1, 2, 3, 4, 5];\nconst [y] = numbers;\nconsole.log(y);"
+    },
+    "options": [
+      "A: [[1, 2, 3, 4, 5]]",
+      "B: [1, 2, 3, 4, 5]",
+      "C: 1",
+      "D: [1]"
+    ],
+    "correctIndex": 2,
+    "explanation": "Array destructuring is used here. The variable y receives the first element of the numbers array, which is 1.",
+    "explanation_ru": "Используется деструктуризация массива. Переменной y присваивается первый элемент массива numbers, то есть 1."
+  },
+  {
+    "id": 29,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const user = { name: \"Lydia\", age: 21 };\nconst admin = { admin: true, ...user };\nconsole.log(admin);",
+    "demo": {
+      "kind": "javascript",
+      "code": "const user = { name: \"Lydia\", age: 21 };\nconst admin = { admin: true, ...user };\nconsole.log(admin);"
+    },
+    "options": [
+      "A: { admin: true, user: { name: \"Lydia\", age: 21 } }",
+      "B: { admin: true, name: \"Lydia\", age: 21 }",
+      "C: { admin: true, user: [\"Lydia\", 21] }",
+      "D: { admin: true }"
+    ],
+    "correctIndex": 1,
+    "explanation": "The object spread syntax (...) copies the properties from user into the admin object.",
+    "explanation_ru": "Spread оператор (...) «распаковывает» свойства объекта user внутрь объекта admin."
+  },
+  {
+    "id": 30,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const settings = {\n  username: \"lydiahallie\",\n  level: 19,\n  health: 90\n};\nconst data = JSON.stringify(settings, [\"level\", \"health\"]);\nconsole.log(data);",
+    "demo": {
+      "kind": "javascript",
+      "code": "const settings = {\n  username: \"lydiahallie\",\n  level: 19,\n  health: 90\n};\nconst data = JSON.stringify(settings, [\"level\", \"health\"]);\nconsole.log(data);"
+    },
+    "options": [
+      "A: \"{\"level\":19, \"health\":90}\"",
+      "B: \"{\"username\": \"lydiahallie\"}\"",
+      "C: \"[\"level\", \"health\"]\"",
+      "D: \"{\"username\": \"lydiahallie\", \"level\":19, \"health\":90}\""
+    ],
+    "correctIndex": 0,
+    "explanation": "The second argument to JSON.stringify is a replacer array. It filters which properties are serialized, so only level and health appear in the resulting string.",
+    "explanation_ru": "Второй аргумент функции JSON.stringify (replacer array) фильтрует свойства, которые будут сериализованы. В строку попадут только level и health."
+  },
+  {
+    "id": 31,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "let num = 10;\nconst increaseNumber = () => num++;\nconst increasePassedNumber = number => number++;\nconst num1 = increaseNumber();\nconst num2 = increasePassedNumber(num1);\nconsole.log(num1);\nconsole.log(num2);",
+    "demo": {
+      "kind": "javascript",
+      "code": "let num = 10;\nconst increaseNumber = () => num++;\nconst increasePassedNumber = number => number++;\nconst num1 = increaseNumber();\nconst num2 = increasePassedNumber(num1);\nconsole.log(num1);\nconsole.log(num2);"
+    },
+    "options": [
+      "A: 10, 10",
+      "B: 10, 11",
+      "C: 11, 11",
+      "D: 11, 12"
+    ],
+    "correctIndex": 0,
+    "explanation": "The postfix increment operator (num++) returns the current value before incrementing. increaseNumber returns 10 and then the outer num becomes 11. num1 is 10, and increasePassedNumber(10) also returns 10, so both logged values are 10.",
+    "explanation_ru": "Оператор постфиксного инкремента (num++) возвращает текущее значение ДО увеличения. increaseNumber возвращает 10 (глобальный num становится 11). Затем num1 = 10. increasePassedNumber(10) возвращает 10. В консоль выводится 10 и 10."
+  },
+  {
+    "id": 32,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "[1, 2, 3, 4].reduce((x, y) => console.log(x, y));",
+    "demo": {
+      "kind": "javascript",
+      "code": "[1, 2, 3, 4].reduce((x, y) => console.log(x, y));"
+    },
+    "options": [
+      "A: 1 2 and 3 3 and 6 4",
+      "B: 1 2 and 2 3 and 3 4",
+      "C: 1 undefined and 2 undefined and 3 undefined and 4 undefined",
+      "D: 1 2 and undefined 3 and undefined 4"
+    ],
+    "correctIndex": 3,
+    "explanation": "Without an initial value, reduce uses the first array element as x and the second as y. console.log(1, 2) returns undefined. On the next iteration, x is undefined and y is 3, and the same pattern continues.",
+    "explanation_ru": "reduce без начального значения берет первый элемент как x, второй как y: console.log(1, 2) возвращает undefined. На следующей итерации x = undefined (то, что вернул предыдущий шаг), y = 3. Выведет: undefined 3, и т.д."
+  },
+  {
+    "id": 33,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function addToList(item, list) {\n  return list.push(item);\n}\nconst result = addToList(\"apple\", [\"banana\"]);\nconsole.log(result);",
+    "demo": {
+      "kind": "javascript",
+      "code": "function addToList(item, list) {\n  return list.push(item);\n}\nconst result = addToList(\"apple\", [\"banana\"]);\nconsole.log(result);"
+    },
+    "options": [
+      "A: ['apple', 'banana']",
+      "B: 2",
+      "C: true",
+      "D: undefined"
+    ],
+    "correctIndex": 1,
+    "explanation": "push() returns the new length of the array, not the array itself. After adding \"apple\", the array length is 2.",
+    "explanation_ru": "Метод push() возвращает новую длину массива, а не сам массив. Массив стал длиной 2."
+  },
+  {
+    "id": 34,
+    "type": "javascript",
+    "question": "What is the output?",
+    "code": "const list = [1 + 2, 1 * 2, 1 / 2]\nconsole.log(list)",
+    "demo": {
+      "kind": "javascript",
+      "code": "const list = [1 + 2, 1 * 2, 1 / 2]\nconsole.log(list)"
+    },
+    "options": [
+      "A: [\"1 + 2\", \"1 * 2\", \"1 / 2\"]",
+      "B: [\"12\", 2, 0.5]",
+      "C: [3, 2, 0.5]",
+      "D: [1, 1, 1]"
+    ],
+    "correctIndex": 2,
+    "explanation": "Expressions inside an array literal are evaluated. The arithmetic results are [3, 2, 0.5].",
+    "explanation_ru": "Выражения внутри массива вычисляются. Результат математических операций будет [3, 2, 0.5]."
+  },
+  {
+    "id": 35,
+    "type": "javascript",
+    "question": "What is the output?",
+    "code": "function sayHi(name) {\n  return `Hi there, ${name}`\n}\nconsole.log(sayHi())",
+    "demo": {
+      "kind": "javascript",
+      "code": "function sayHi(name) {\n  return `Hi there, ${name}`\n}\nconsole.log(sayHi())"
+    },
+    "options": [
+      "A: Hi there,",
+      "B: Hi there, undefined",
+      "C: Hi there, null",
+      "D: ReferenceError"
+    ],
+    "correctIndex": 1,
+    "explanation": "The function is called without arguments, so the name parameter receives the value undefined.",
+    "explanation_ru": "Функция вызывается без аргументов, поэтому параметр name принимает значение undefined."
+  },
+  {
+    "id": 36,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "console.log(\"I want pizza\"[0])",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log(\"I want pizza\"[0])"
+    },
+    "options": [
+      "A: \"\"\"",
+      "B: \"I\"",
+      "C: SyntaxError",
+      "D: undefined"
+    ],
+    "correctIndex": 1,
+    "explanation": "Strings can be indexed like arrays. Index 0 of \"I want pizza\" is the character \"I\".",
+    "explanation_ru": "Строки можно индексировать как массивы. Нулевой индекс строки \"I want pizza\" — это символ \"I\"."
+  },
+  {
+    "id": 37,
+    "type": "javascript",
+    "question": "What is the output?",
+    "code": "function checkAge(age) {\n  if (age < 18) {\n    const message = \"Sorry, you're too young.\"\n  } else {\n    const message = \"Yay! You're old enough!\"\n  }\n  return message\n}\nconsole.log(checkAge(21))",
+    "demo": {
+      "kind": "javascript",
+      "code": "function checkAge(age) {\n  if (age < 18) {\n    const message = \"Sorry, you're too young.\"\n  } else {\n    const message = \"Yay! You're old enough!\"\n  }\n  return message\n}\nconsole.log(checkAge(21))"
+    },
+    "options": [
+      "A: \"Sorry, you're too young.\"",
+      "B: \"Yay! You're old enough!\"",
+      "C: ReferenceError",
+      "D: undefined"
+    ],
+    "correctIndex": 2,
+    "explanation": "Variables declared with const and let are block-scoped. The message variable only exists inside the if or else block, so return message throws a ReferenceError.",
+    "explanation_ru": "Переменные const и let имеют блочную область видимости. Переменная message не существует вне блоков if/else, поэтому return message выбрасывает ReferenceError."
+  },
+  {
+    "id": 38,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function sum(num1, num2 = num1) {\n  console.log(num1 + num2)\n}\nsum(10)",
+    "demo": {
+      "kind": "javascript",
+      "code": "function sum(num1, num2 = num1) {\n  console.log(num1 + num2)\n}\nsum(10)"
+    },
+    "options": [
+      "A: NaN",
+      "B: 20",
+      "C: ReferenceError",
+      "D: undefined"
+    ],
+    "correctIndex": 1,
+    "explanation": "Default parameters can refer to earlier parameters. num2 receives the value of num1, which is 10, so the sum is 20.",
+    "explanation_ru": "Параметры по умолчанию могут ссылаться на предыдущие параметры. num2 принимает значение num1 (10). В итоге: 10 + 10 = 20."
+  },
+  {
+    "id": 39,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "let newList = [1, 2, 3].push(4)\nconsole.log(newList.push(5))",
+    "demo": {
+      "kind": "javascript",
+      "code": "let newList = [1, 2, 3].push(4)\nconsole.log(newList.push(5))"
+    },
+    "options": [
+      "A: [1, 2, 3, 4, 5]",
+      "B: [1, 2, 3, 5]",
+      "C: [1, 2, 3, 4]",
+      "D: Error"
+    ],
+    "correctIndex": 3,
+    "explanation": "push() returns the new length of the array. That means newList is the number 4. Numbers do not have a push method, so calling newList.push(5) throws a TypeError.",
+    "explanation_ru": "push() возвращает новую длину массива. Так что newList равен числу 4. У числа нет метода push(), поэтому возникает ошибка (TypeError)."
+  },
+  {
+    "id": 40,
+    "type": "html",
+    "question": "When you click the paragraph, what's the logged output?",
+    "code": "<div onclick=\"console.log('div')\">\n  <p onclick=\"console.log('p')\">\n    Click here!\n  </p>\n</div>",
+    "demo": {
+      "kind": "html",
+      "html": "<div onclick=\"console.log('div')\">\n  <p onclick=\"console.log('p')\">\n    Click here!\n  </p>\n</div>"
+    },
+    "options": [
+      "A: p div",
+      "B: div p",
+      "C: p",
+      "D: div"
+    ],
+    "correctIndex": 0,
+    "explanation": "DOM events bubble. When the paragraph is clicked, the p handler runs first, then the event bubbles to the parent div handler.",
+    "explanation_ru": "В JavaScript события всплывают (bubbling). При клике на <p> сначала срабатывает обработчик <p>, а затем он всплывает к родительскому элементу <div>."
+  },
+  {
+    "id": 41,
+    "type": "html",
+    "question": "What is the event.target when clicking the button?",
+    "code": "<div onclick=\"console.log('first div')\">\n  <div onclick=\"console.log('second div')\">\n    <button onclick=\"console.log('button')\">\n      Click!\n    </button>\n  </div>\n</div>",
+    "demo": {
+      "kind": "html",
+      "html": "<div onclick=\"console.log('first div')\">\n  <div onclick=\"console.log('second div')\">\n    <button onclick=\"console.log('button')\">\n      Click!\n    </button>\n  </div>\n</div>"
+    },
+    "options": [
+      "A: Outer div",
+      "B: Inner div",
+      "C: button",
+      "D: An array of all nested elements."
+    ],
+    "correctIndex": 2,
+    "explanation": "event.target points to the deepest element that was actually clicked, also called the original event target. In this case, that element is the button.",
+    "explanation_ru": "Свойство event.target всегда указывает на самый глубокий элемент, по которому был произведен фактический клик (исходный элемент события), в данном случае это кнопка."
+  },
+  {
+    "id": 42,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const person = { name: \"Lydia\" };\nfunction sayHi(age) {\n  return `${this.name} is ${age}`;\n}\nconsole.log(sayHi.call(person, 21));\nconsole.log(sayHi.bind(person, 21));",
+    "demo": {
+      "kind": "javascript",
+      "code": "const person = { name: \"Lydia\" };\nfunction sayHi(age) {\n  return `${this.name} is ${age}`;\n}\nconsole.log(sayHi.call(person, 21));\nconsole.log(sayHi.bind(person, 21));"
+    },
+    "options": [
+      "A: undefined is 21 Lydia is 21",
+      "B: function function",
+      "C: Lydia is 21 Lydia is 21",
+      "D: Lydia is 21 function"
+    ],
+    "correctIndex": 3,
+    "explanation": "call() invokes the function immediately with the provided this value. bind() returns a new function with this bound, but it does not call that function.",
+    "explanation_ru": "Метод call() вызывает функцию немедленно с заданным this. Метод bind() возвращает НОВУЮ функцию с привязанным контекстом, но не вызывает её."
+  },
+  {
+    "id": 43,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function sayHi() {\n  return (() => 0)();\n}\nconsole.log(typeof sayHi());",
+    "demo": {
+      "kind": "javascript",
+      "code": "function sayHi() {\n  return (() => 0)();\n}\nconsole.log(typeof sayHi());"
+    },
+    "options": [
+      "A: \"object\"",
+      "B: \"number\"",
+      "C: \"function\"",
+      "D: \"undefined\""
+    ],
+    "correctIndex": 1,
+    "explanation": "(() => 0)() is an immediately invoked arrow function expression. It returns the number 0, so sayHi returns 0 and typeof 0 is \"number\".",
+    "explanation_ru": "(() => 0)() — это немедленно вызываемая стрелочная функция (IIFE), которая возвращает число 0. Функция sayHi возвращает это число, поэтому typeof 0 — \"number\"."
+  },
+  {
+    "id": 44,
+    "type": "javascript",
+    "question": "Which of these values are falsy?",
+    "code": "0;\nnew Number(0);\n(\"\");\n(\" \");\nnew Boolean(false);\nundefined;",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log(Boolean(0));\nconsole.log(Boolean(new Number(0)));\nconsole.log(Boolean(\"\"));\nconsole.log(Boolean(\" \"));\nconsole.log(Boolean(new Boolean(false)));\nconsole.log(Boolean(undefined));"
+    },
+    "options": [
+      "A: 0, '', undefined",
+      "B: 0, new Number(0), '', new Boolean(false), undefined",
+      "C: 0, '', new Boolean(false), undefined",
+      "D: All of them are falsy"
+    ],
+    "correctIndex": 0,
+    "explanation": "Objects created with new are always truthy, including new Boolean(false). A string containing a space is also truthy. The falsy values here are 0, \"\", and undefined.",
+    "explanation_ru": "Объекты, созданные через new, всегда являются truthy (включая new Boolean(false)). Строка с пробелом \" \" также truthy. Falsy значения здесь: 0, \"\" (пустая строка) и undefined."
+  },
+  {
+    "id": 45,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "(() => {\n  let x, y;\n  try {\n    throw new Error();\n  } catch (x) {\n    (x = 1), (y = 2);\n    console.log(x);\n  }\n  console.log(x);\n  console.log(y);\n})();",
+    "demo": {
+      "kind": "javascript",
+      "code": "(() => {\n  let x, y;\n  try {\n    throw new Error();\n  } catch (x) {\n    (x = 1), (y = 2);\n    console.log(x);\n  }\n  console.log(x);\n  console.log(y);\n})();"
+    },
+    "options": [
+      "A: 1 undefined 2",
+      "B: undefined undefined undefined",
+      "C: 1 1 2",
+      "D: 1 undefined undefined"
+    ],
+    "correctIndex": 0,
+    "explanation": "The catch(x) parameter creates a local binding that shadows the outer let x. That local x receives 1. The outer x remains undefined, and the outer y receives 2.",
+    "explanation_ru": "В блоке catch(x) создается локальная блочная переменная x, затеняющая внешнюю let x. Ей присваивается 1. Внешняя x остается undefined. Внешней y присваивается 2."
+  },
+  {
+    "id": 46,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "[[0, 1], [2, 3]].reduce(\n  (acc, cur) => {\n    return acc.concat(cur);\n  },  [1, 2]);",
+    "demo": {
+      "kind": "javascript",
+      "code": "console.log([[0, 1], [2, 3]].reduce(\n  (acc, cur) => {\n    return acc.concat(cur);\n  },  [1, 2]));"
+    },
+    "options": [
+      "A: [0, 1, 2, 3, 1, 2]",
+      "B: [6, 1, 2]",
+      "C: [1, 2, 0, 1, 2, 3]",
+      "D: [1, 2, 6]"
+    ],
+    "correctIndex": 2,
+    "explanation": "reduce starts with the initial value [1, 2]. The first iteration concatenates [0, 1], producing [1, 2, 0, 1]. The second iteration concatenates [2, 3], producing [1, 2, 0, 1, 2, 3].",
+    "explanation_ru": "reduce начинается с начального значения [1, 2]. Первая итерация: [1, 2].concat([0, 1]) = [1, 2, 0, 1]. Вторая итерация: concat([2, 3]) дает [1, 2, 0, 1, 2, 3]."
+  },
+  {
+    "id": 47,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "function getAge(...args) {\n  console.log(typeof args);\n}\ngetAge(21);",
+    "demo": {
+      "kind": "javascript",
+      "code": "function getAge(...args) {\n  console.log(typeof args);\n}\ngetAge(21);"
+    },
+    "options": [
+      "A: \"number\"",
+      "B: \"array\"",
+      "C: \"object\"",
+      "D: \"NaN\""
+    ],
+    "correctIndex": 2,
+    "explanation": "The rest parameter (...args) collects the arguments into an array, [21]. Arrays are objects in JavaScript, so typeof returns \"object\".",
+    "explanation_ru": "Rest-оператор (...args) собирает аргументы в массив [21]. В JavaScript массивы являются объектами, поэтому typeof вернет \"object\"."
+  },
+  {
+    "id": 48,
+    "type": "javascript",
+    "question": "What does this return?",
+    "code": "const firstPromise = new Promise((res, rej) => {\n  setTimeout(res.bind(undefined, 'one'), 500);\n});\nconst secondPromise = new Promise((res, rej) => {\n  setTimeout(res, 100, 'two');\n});\nPromise.race([firstPromise, secondPromise]).then(res => console.log(res));",
+    "demo": {
+      "kind": "javascript",
+      "code": "const firstPromise = new Promise((res, rej) => {\n  setTimeout(res.bind(undefined, 'one'), 500);\n});\nconst secondPromise = new Promise((res, rej) => {\n  setTimeout(res, 100, 'two');\n});\nPromise.race([firstPromise, secondPromise]).then(res => console.log(res));"
+    },
+    "options": [
+      "A: \"one\"",
+      "B: \"two\"",
+      "C: \"two\" \"one\"",
+      "D: \"one\" \"two\""
+    ],
+    "correctIndex": 1,
+    "explanation": "Promise.race settles with the first promise that settles. secondPromise resolves with 'two' after 100ms, faster than the 500ms promise, so 'two' is logged.",
+    "explanation_ru": "Promise.race возвращает промис, который резолвится первым. secondPromise резолвится через 100мс с 'two', быстрее, чем 500мс, поэтому выведется 'two'."
+  },
+  {
+    "id": 49,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "async function getData() {\n  return await Promise.resolve('I made it!');\n}\nconst data = getData();\nconsole.log(data);",
+    "demo": {
+      "kind": "javascript",
+      "code": "async function getData() {\n  return await Promise.resolve('I made it!');\n}\nconst data = getData();\nconsole.log(data);"
+    },
+    "options": [
+      "A: \"I made it!\"",
+      "B: Promise {<resolved>: \"I made it!\"}",
+      "C: Promise {<pending>}",
+      "D: undefined"
+    ],
+    "correctIndex": 2,
+    "explanation": "An async function always returns a promise. Since getData() is called without await, console.log receives the promise while it is still pending at that synchronous moment.",
+    "explanation_ru": "async функция всегда возвращает промис. Так как вызов getData() не содержит await снаружи, она возвращает Promise, который в момент синхронного вызова console.log еще находится в статусе pending (ожидание)."
+  },
+  {
+    "id": 50,
+    "type": "javascript",
+    "question": "What's the value of output?",
+    "code": "const myPromise = () => Promise.resolve('I have resolved!');\nfunction firstFunction() {\n  myPromise().then(res => console.log(res));\n  console.log('second');\n}\nasync function secondFunction() {\n  console.log(await myPromise());\n  console.log('second');\n}\nfirstFunction();\nsecondFunction();",
+    "demo": {
+      "kind": "javascript",
+      "code": "const myPromise = () => Promise.resolve('I have resolved!');\nfunction firstFunction() {\n  myPromise().then(res => console.log(res));\n  console.log('second');\n}\nasync function secondFunction() {\n  console.log(await myPromise());\n  console.log('second');\n}\nfirstFunction();\nsecondFunction();"
+    },
+    "options": [
+      "A: I have resolved!, second and I have resolved!, second",
+      "B: second, I have resolved! and second, I have resolved!",
+      "C: I have resolved!, second and second, I have resolved!",
+      "D: second, I have resolved! and I have resolved!, second"
+    ],
+    "correctIndex": 3,
+    "explanation": "In firstFunction, the synchronous console.log('second') runs before the then microtask. In secondFunction, await pauses the function until the promise resolves, so 'I have resolved!' is logged before 'second'.",
+    "explanation_ru": "В firstFunction синхронный console.log('second') отрабатывает раньше микротаски then. В secondFunction ключевое слово await останавливает выполнение функции до резолва, поэтому 'I have resolved!' выводится ДО 'second'."
+  },
+  {
+    "id": 51,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const myPromise = Promise.resolve('Woah some cool data');\n(async () => {\n  try {\n    console.log(await myPromise);\n  } catch {\n    throw new Error(`Oops didn't work`);\n  } finally {\n    console.log('Oh finally!');\n  }\n})();",
+    "demo": {
+      "kind": "javascript",
+      "code": "const myPromise = Promise.resolve('Woah some cool data');\n(async () => {\n  try {\n    console.log(await myPromise);\n  } catch {\n    throw new Error(`Oops didn't work`);\n  } finally {\n    console.log('Oh finally!');\n  }\n})();"
+    },
+    "options": [
+      "A: Woah some cool data",
+      "B: Oh finally!",
+      "C: Woah some cool data Oh finally!",
+      "D: Oops didn't work Oh finally!"
+    ],
+    "correctIndex": 2,
+    "explanation": "The promise resolves successfully, so the catch block is skipped. The finally block always runs after try/catch. The data is logged first, followed by the finally message.",
+    "explanation_ru": "Промис резолвится успешно, блок catch игнорируется. Блок finally выполняется всегда после try/catch. Результат: сначала данные из try, затем лог из finally."
+  },
+  {
+    "id": 52,
+    "type": "javascript",
+    "question": "What's the output?",
+    "code": "const promise1 = Promise.resolve('First')\nconst promise2 = Promise.resolve('Second')\nconst promise3 = Promise.reject('Third')\nconst promise4 = Promise.resolve('Fourth')\nconst runPromises = async () => {\n  const res1 = await Promise.all([promise1, promise2])\n  const res2  = await Promise.all([promise3, promise4])\n  return [res1, res2]\n}\nrunPromises()\n  .then(res => console.log(res))\n  .catch(err => console.log(err))",
+    "demo": {
+      "kind": "javascript",
+      "code": "const promise1 = Promise.resolve('First')\nconst promise2 = Promise.resolve('Second')\nconst promise3 = Promise.reject('Third')\nconst promise4 = Promise.resolve('Fourth')\nconst runPromises = async () => {\n  const res1 = await Promise.all([promise1, promise2])\n  const res2  = await Promise.all([promise3, promise4])\n  return [res1, res2]\n}\nrunPromises()\n  .then(res => console.log(res))\n  .catch(err => console.log(err))"
+    },
+    "options": [
+      "A: [['First', 'Second'], ['Fourth']]",
+      "B: [['First', 'Second'], ['Third', 'Fourth']]",
+      "C: [['First', 'Second']]",
+      "D: 'Third'"
+    ],
+    "correctIndex": 3,
+    "explanation": "Promise.all rejects if any promise in the array rejects. promise3 rejects, so the async function stops at that await and the rejection is handled by the outer .catch, logging 'Third'.",
+    "explanation_ru": "Promise.all завершается с ошибкой (reject), если хотя бы один из переданных промисов реджектится. promise3 отклоняется, поэтому выполнение в async функции прерывается, и ошибка ловится во внешнем .catch, выводя 'Third'."
+  }
+]
