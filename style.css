@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.task-status-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+}
+
+.task-status {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+
+    color: black;
+}
+
+.task-status.is-unseen {
+    background: #9ca3af;
+}
+
+.task-status.is-wrong {
+    background: #dc2626;
+}
+
+.task-status.is-correct {
+    background: #16a34a;
+}
+
+.empty-main-div {
+    font-size: 100px;
+    text-align: center;
+}
+
+.footer-div {
+    text-align: center;
+}
+
+.task-answer-li {
+    border: 2px solid white;
+}
+
+.task-answer-correct {
+    border: 2px solid #16a34a;
+}
+
+.task-answer-wrong {
+    border: 2px solid #dc2626;
+}
