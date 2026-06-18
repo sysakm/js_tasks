@@ -18,14 +18,18 @@ body {
 }
 
 .task-status {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border-radius: 999px;
     border: 0;
     padding: 0;
     cursor: pointer;
 
     color: black;
+}
+
+.task-status.is-current {
+    border: 3px solid black;
 }
 
 .task-status.is-unseen {
@@ -49,14 +53,36 @@ body {
     text-align: center;
 }
 
+.task-div {
+    padding: 0 20px;
+}
+
+.task-answer-ul {
+    list-style: none;
+}
+
 .task-answer-li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
     border: 2px solid white;
 }
 
-.task-answer-correct {
+.task-answer-li.task-answer-correct {
     border: 2px solid #16a34a;
 }
 
-.task-answer-wrong {
+.task-answer-li.task-answer-wrong {
     border: 2px solid #dc2626;
+}
+
+.task-answer-radio {
+    margin: 0 0 0 5px;
+    transform: translateY(1px);
+}
+
+.task-answer-label {
+    line-height: 1.2;
+    margin-right: 5px;
 }

@@ -4,6 +4,7 @@ const data = await dataRaw.json()
 const startButton = document.getElementById('start-button')
 startButton.addEventListener('click', runApp)
 
+const statusTaskMap = new Map()
 const dataTaskTagsMap = new Map()
 let numberCorrectTasks = 0, numberDoneTasks = 0, numberLoadedTasks = data.length
 let currentLoadedTask = null
@@ -32,6 +33,7 @@ function createHeader() {
         const statusLi = createTag('li', '', statusList)
         const statusButton = createTag('button', task.id.toString(), statusLi, ['task-status', 'is-unseen'], {id: `task-status-${task.id}`})
 
+        statusTaskMap.set(task.id, statusButton)
         dataTaskTagsMap.set(task.id, null)
         statusButton.addEventListener('click', () => {loadTask(task.id)})
     }
@@ -43,6 +45,14 @@ function createEmptyMain() {
     createTag('div', 'Choose the task', mainTag, ['empty-main-div'])
 }
 
+function switchCurrentTask(taskId) {
+    if (currentLoadedTask) {
+        statusTaskMap.get(currentLoadedTask).classList.toggle('is-current')
+    }
+    statusTaskMap.get(taskId).classList.toggle('is-current')
+    currentLoadedTask = taskId
+}
+
 function loadTask(taskId) {
     const task = data.find(task => task.id === taskId)
     const mainTag = document.querySelector('main')
@@ -52,6 +62,20 @@ function loadTask(taskId) {
         mainTag.innerHTML = ''
         const taskDiv = createTag('div', '', mainTag, ['task-div'])
         dataTaskTagsMap.set(taskId, taskDiv)
+
+        const prevBtn = createTag('button', 'prev', taskDiv, ['prev-task-button'])
+        if (taskId > data.reduce((acc, task) => (task.id < acc) ? task.id : acc, +Infinity)) {
+            prevBtn.addEventListener('click', () => {loadTask(taskId - 1)})
+        } else {
+            prevBtn.disabled = true
+        }
+
+        const nextBtn = createTag('button', 'next', taskDiv, ['next-task-button'])
+        if (taskId < data.reduce((acc, task) => (task.id > acc) ? task.id : acc, -Infinity)) {
+            nextBtn.addEventListener('click', () => {loadTask(taskId + 1)})
+        } else {
+            nextBtn.disabled = true
+        }
 
         createTag('h5', `Task number ${task.id}`, taskDiv, ['task-header'])
         createTag('span', task.question, taskDiv, ['task-question'])
@@ -84,7 +108,7 @@ function loadTask(taskId) {
     } else {
         mainTag.replaceChildren(dataTaskTagsMap.get(taskId))
     }
-    currentLoadedTask = taskId
+    switchCurrentTask(taskId)
 }
 
 function submitAnswerToTask(taskId, optionId) {
